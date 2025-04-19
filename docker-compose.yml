@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: to_do_list_db
+      POSTGRES_USER: thallys
+      POSTGRES_PASSWORD: thallys
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data_todolist:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U thallys -d to_do_list_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  app:
+    build: .
+    container_name: to_do_list_app
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/to_do_list_db
+      SPRING_DATASOURCE_USERNAME: thallys
+      SPRING_DATASOURCE_PASSWORD: thallys
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: true
+
+volumes:
+  postgres_data_todolist:
+    driver: local
