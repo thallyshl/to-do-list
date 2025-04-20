@@ -29,7 +29,8 @@ public class Task {
      */
     @Id
     @Column(nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_id_seq")
+    @SequenceGenerator(name = "tasks_id_seq", sequenceName = "tasks_id_seq", allocationSize = 1)
     private Long id;
 
     /**

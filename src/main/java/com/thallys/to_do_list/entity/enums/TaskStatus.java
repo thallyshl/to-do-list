@@ -3,6 +3,9 @@ package com.thallys.to_do_list.entity.enums;
 /**
  * Enum que representa os possíveis estados de uma tarefa no sistema.
  * Utilizado para controlar o ciclo de vida das tarefas.
+ * @author Thallys
+ * @version 1.0
+ * @since 2025-04-18
  */
 public enum TaskStatus {
     
